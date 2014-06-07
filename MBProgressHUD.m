@@ -535,6 +535,22 @@ static const CGFloat MBProgressHUDParallaxDepthPoints = 10;
 	if (parent) {
 		self.frame = parent.bounds;
 	}
+    
+    if (IS_OS_7_OR_LATER) {
+        [self setFrame:CGRectInset(self.frame, -MBProgressHUDParallaxDepthPoints, -MBProgressHUDParallaxDepthPoints)];
+        
+        UIInterpolatingMotionEffect *effectX = [[UIInterpolatingMotionEffect alloc] initWithKeyPath: @"center.x" type: UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+        effectX.minimumRelativeValue = @(-MBProgressHUDParallaxDepthPoints);
+        effectX.maximumRelativeValue = @(MBProgressHUDParallaxDepthPoints);
+        
+        UIInterpolatingMotionEffect *effectY = [[UIInterpolatingMotionEffect alloc] initWithKeyPath: @"center.y" type: UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+        effectY.minimumRelativeValue = @(-MBProgressHUDParallaxDepthPoints);
+        effectY.maximumRelativeValue = @(MBProgressHUDParallaxDepthPoints);
+        
+        [self addMotionEffect: effectX];
+        [self addMotionEffect: effectY];
+    }
+    
 	CGRect bounds = self.bounds;
 	
 	// Determine the total widt and height needed
@@ -573,19 +589,6 @@ static const CGFloat MBProgressHUDParallaxDepthPoints = 10;
 	indicatorF.origin.x = round((bounds.size.width - indicatorF.size.width) / 2) + xPos;
 	indicator.frame = indicatorF;
 	yPos += indicatorF.size.height;
-    
-    if (IS_OS_7_OR_LATER) {
-        UIInterpolatingMotionEffect *effectX = [[UIInterpolatingMotionEffect alloc] initWithKeyPath: @"center.x" type: UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
-        effectX.minimumRelativeValue = @(-MBProgressHUDParallaxDepthPoints);
-        effectX.maximumRelativeValue = @(MBProgressHUDParallaxDepthPoints);
-        
-        UIInterpolatingMotionEffect *effectY = [[UIInterpolatingMotionEffect alloc] initWithKeyPath: @"center.y" type: UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
-        effectY.minimumRelativeValue = @(-MBProgressHUDParallaxDepthPoints);
-        effectY.maximumRelativeValue = @(MBProgressHUDParallaxDepthPoints);
-        
-        [indicator addMotionEffect: effectX];
-        [indicator addMotionEffect: effectY];
-    }
 	
 	if (labelSize.height > 0.f && indicatorF.size.height > 0.f) {
 		yPos += kPadding;
