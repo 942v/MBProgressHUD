@@ -390,6 +390,8 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (assign) BOOL taskInProgress;
 
+@property (assign) BOOL activateParallaxEffect;
+
 /**
  * Removes the HUD from its parent view when hidden.
  * Defaults to NO.

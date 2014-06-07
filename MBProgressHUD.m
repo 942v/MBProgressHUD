@@ -113,6 +113,7 @@ static const CGFloat MBProgressHUDParallaxDepthPoints = 10;
 @synthesize graceTimer;
 @synthesize minShowTimer;
 @synthesize taskInProgress;
+@synthesize activateParallaxEffect;
 @synthesize removeFromSuperViewOnHide;
 @synthesize customView;
 @synthesize showStarted;
@@ -211,6 +212,7 @@ static const CGFloat MBProgressHUDParallaxDepthPoints = 10;
 		self.alpha = 0.0f;
 		
 		taskInProgress = NO;
+        activateParallaxEffect = NO;
 		rotationTransform = CGAffineTransformIdentity;
 		
 		[self setupLabels];
@@ -536,7 +538,7 @@ static const CGFloat MBProgressHUDParallaxDepthPoints = 10;
 		self.frame = parent.bounds;
 	}
     
-    if (IS_OS_7_OR_LATER) {
+    if (IS_OS_7_OR_LATER && activateParallaxEffect) {
         [self setFrame:CGRectInset(self.frame, -MBProgressHUDParallaxDepthPoints, -MBProgressHUDParallaxDepthPoints)];
         
         UIInterpolatingMotionEffect *effectX = [[UIInterpolatingMotionEffect alloc] initWithKeyPath: @"center.x" type: UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
